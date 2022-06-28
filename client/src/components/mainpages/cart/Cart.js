@@ -1,13 +1,14 @@
 import React, {useContext, useState, useEffect} from 'react'
 import {GlobalState} from '../../../GlobalState'
 import axios from 'axios'
-import PaypalButton from './PaypalButton'
+// import PaypalButton from './PaypalButton'
 
 function Cart() {
     const state = useContext(GlobalState)
     const [cart, setCart] = state.userAPI.cart
     const [token] = state.token
     const [total, setTotal] = useState(0)
+    const [id,setid]=useState("");
 
     useEffect(() =>{
         const getTotal = () =>{
@@ -65,8 +66,9 @@ function Cart() {
     }
 
     const tranSuccess = async(payment) => {
-        const {paymentID, address} = payment;
-
+        const address = payment;
+        const paymentID=payment.razorpay_payment_id;
+        console.log("data 3",paymentID)
         await axios.post('/api/payment', {cart, paymentID, address}, {
             headers: {Authorization: token}
         })
@@ -78,7 +80,48 @@ function Cart() {
 
 
     if(cart.length === 0) 
-        return <h2 style={{textAlign: "center", fontSize: "3rem" ,fontFamily: "Arial, Helvetica, sans-serif"}}>Cart Empty</h2> 
+        return <h2 style={{textAlign: "center", fontSize: "5rem"}}>Cart Empty</h2> 
+
+        const initPayment = (data) => {
+            const options = {
+                key: "rzp_test_0jZm5UHEVMgNlQ",
+                key_secret:"6GrfCy2DZ9B7QYM6J3IYcSYu",
+                amount: data.amount,
+                currency: data.currency,
+
+                description: "Test Transaction",
+                order_id: data.id,
+                handler: async (response) => {
+                    try {
+                        const verifyUrl = "http://localhost:5000/api/verify";
+                        const { data } = await axios.post(verifyUrl, response);
+                        console.log("data 2")
+                        console.log(response);
+                        tranSuccess(response);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                theme: {
+                    color: "#3399cc",
+                },
+            };
+            const rzp1 = new window.Razorpay(options);
+            rzp1.open();
+        };
+    
+        const handlePayment = async () => {
+            try {
+                const orderUrl = "http://localhost:5000/api/orders";
+                const { data } = await axios.post(orderUrl, { amount: total });
+                console.log("data 1")
+                console.log(data);
+                setid(data.id);
+                initPayment(data.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };    
 
     return (
         <div>
@@ -111,9 +154,10 @@ function Cart() {
 
             <div className="total">
                 <h3>Total: $ {total}</h3>
-                <PaypalButton
+                {/* <PaypalButton
                 total={total}
-                tranSuccess={tranSuccess} />
+                tranSuccess={tranSuccess} /> */}
+                <button onClick={handlePayment}>Pay</button>
             </div>
         </div>
     )
