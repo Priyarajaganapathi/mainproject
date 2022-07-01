@@ -9,6 +9,8 @@ function Cart() {
     const [token] = state.token
     const [total, setTotal] = useState(0)
     const [id,setid]=useState("");
+    const [address ,setaddress]=useState([{}]);
+    const [isaddress,setisaddress]=useState(false)
 
     useEffect(() =>{
         const getTotal = () =>{
@@ -88,7 +90,6 @@ function Cart() {
                 key_secret:"6GrfCy2DZ9B7QYM6J3IYcSYu",
                 amount: data.amount,
                 currency: data.currency,
-
                 description: "Test Transaction",
                 order_id: data.id,
                 handler: async (response) => {
@@ -121,7 +122,10 @@ function Cart() {
             } catch (error) {
                 console.log(error);
             }
-        };    
+        };  
+        const addAddress=()=>{
+           setisaddress(true)
+        }  
 
     return (
         <div>
@@ -154,10 +158,16 @@ function Cart() {
 
             <div className="total">
                 <h3>Total: $ {total}</h3>
-                {/* <PaypalButton
-                total={total}
-                tranSuccess={tranSuccess} /> */}
-                <button onClick={handlePayment}>Pay</button>
+                <button onClick={addAddress}>Address</button>
+                {isaddress &&
+                    <div>
+                    name
+                    <input></input>
+                    pincode
+                    <input></input>
+                </div>
+                }
+                {address && <button onClick={handlePayment}>Pay</button>}
             </div>
         </div>
     )
