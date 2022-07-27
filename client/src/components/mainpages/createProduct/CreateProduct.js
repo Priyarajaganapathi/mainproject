@@ -8,9 +8,11 @@ const initialState = {
     product_id: '',
     title: '',
     price: 0,
+    stock:"",
     description: '',
     content: '',
     category: '',
+    size:[],
     _id: ''
 }
 
@@ -121,6 +123,20 @@ function CreateProduct() {
     const styleUpload = {
         display: images ? "block" : "none"
     }
+    const [checked, setChecked] = useState([]);
+
+    const handleCheck = (event) => {
+        // event.preventDefault();
+        var updatedList = [...checked];
+        if (event.target.checked) {
+          updatedList = [...checked, event.target.value];
+        } else {
+          updatedList.splice(checked.indexOf(event.target.value), 1);
+        }
+        setChecked(updatedList);
+        setProduct({...product, [event.target.name]:updatedList})
+        console.log("hiiiii",product.size)
+      }
     return (
         <div className="create_product">
             <div className="upload">
@@ -153,6 +169,27 @@ function CreateProduct() {
                     <label htmlFor="price">Price</label>
                     <input type="number" name="price" id="price" required
                     value={product.price} onChange={handleChangeInput} />
+                </div>
+                <div className="row size">
+                    <label htmlFor="size">Size</label>
+                    <div>
+                    <input type="checkbox" name="size" id="size" 
+                    value='S' onChange={handleCheck} /> S
+                    </div>
+                    <div>
+                    <input type="checkbox" name="size" id="size" 
+                    value='M' onChange={handleCheck} /> M
+                    </div>
+                    <div>
+                    <input type="checkbox" name="size" id="size" 
+                    value='L' onChange={handleCheck} /> L
+                    </div>
+                </div>
+
+                <div className="row">
+                    <label htmlFor="stock">Stock</label>
+                    <input type="number" name="stock" id="stock" required
+                    value={product.stock} onChange={handleChangeInput} />
                 </div>
 
                 <div className="row">

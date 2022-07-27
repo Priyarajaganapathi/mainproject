@@ -7,9 +7,13 @@ function Cart() {
     const [cart, setCart] = state.userAPI.cart
     const [token] = state.token
     const [total, setTotal] = useState(0)
-    const [id,setid]=useState("");
-    const [address ,setaddress]=useState([{}]);
-    const [isaddress,setisaddress]=useState(false)
+    const [id,setid]=useState(""); 
+    const [address ,setaddress]=useState({name:"",city:"",pincode:"",state:""});
+    const [isaddress,setisaddress]=useState(true)
+    const [Limitfororder,setLimit]=useState(false);
+
+    const [quantity,setquantity]=useState(1);
+
 
     useEffect(() =>{
         const getTotal = () =>{
@@ -34,7 +38,17 @@ function Cart() {
     const increment = (id) =>{
         cart.forEach(item => {
             if(item._id === id){
-                item.quantity += 1
+                if(item.quantity>=3)
+                {
+                    setLimit(true);
+                }
+                else{
+                    setLimit(false);
+                    item.quantity += 1
+                    setquantity(item.quantity);
+                }
+
+                
             }
         })
 
@@ -45,7 +59,9 @@ function Cart() {
     const decrement = (id) =>{
         cart.forEach(item => {
             if(item._id === id){
+                setLimit(false);
                 item.quantity === 1 ? item.quantity = 1 : item.quantity -= 1
+                setquantity(item.quantity);
             }
         })
 
@@ -66,14 +82,27 @@ function Cart() {
         }
     }
 
+    const updateStock=async()=>{
+        try {
+            await axios.patch('/api/products',{cart}, {
+                headers: {Authorization: token}
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const tranSuccess = async(payment) => {
-        const address = payment;
+        // const address = payment;
+        //update stock
+        
         const paymentID=payment.razorpay_payment_id;
         console.log("data 3",paymentID)
         await axios.post('/api/payment', {cart, paymentID, address}, {
             headers: {Authorization: token}
-        })
-
+        })     
+    
+        updateStock();
         setCart([])
         addToCart([])
         alert("You have successfully placed an order.")
@@ -94,7 +123,7 @@ function Cart() {
                 handler: async (response) => {
                     try {
                         const verifyUrl = "http://localhost:5000/api/verify";
-                        const { data } = await axios.post(verifyUrl, response);
+                         await axios.post(verifyUrl, response);
                         console.log("data 2")
                         console.log(response);
                         tranSuccess(response);
@@ -124,7 +153,20 @@ function Cart() {
         };  
         const addAddress=()=>{
            setisaddress(true)
-        }  
+        } 
+        
+        const handleaddress=(e)=>{
+         
+                const {name, value} = e.target;
+                setaddress({...address, [name]:value})
+            
+        }
+
+        const handleAddAddress=()=>{
+            console.log(address);
+            console.log(cart)
+            setisaddress(false)
+        }
 
     return (
         <div>
@@ -144,6 +186,7 @@ function Cart() {
                                 <button onClick={() => decrement(product._id)}> - </button>
                                 <span>{product.quantity}</span>
                                 <button onClick={() => increment(product._id)}> + </button>
+                                {Limitfororder && <p>Max 3 per order</p>}
                             </div>
                             
                             <div className="delete" 
@@ -157,16 +200,29 @@ function Cart() {
 
             <div className="total">
                 <h3>Total: $ {total}</h3>
-                <button onClick={addAddress}>Address</button>
-                {isaddress &&
-                    <div>
+                    {isaddress && 
+                    <form onSubmit={handleAddAddress}>
+                    <div className='address'>
+                    <div className='addressinputs'>
                     name
-                    <input></input>
-                    pincode
-                    <input></input>
-                </div>
-                }
-                {address && <button onClick={handlePayment}>Pay</button>}
+                    <input type='text' name='name' required value={address.name} onChange={handleaddress}></input>
+                    mobile
+                    <input type='text' name='mobile'required value={address.mobile} onChange={handleaddress}></input>
+                     city
+                    <input type='text' name='city' required value={address.city} onChange={handleaddress}></input>
+                   
+                     pincode
+                    <input type='text' name='pincode' required value={address.pincode} onChange={handleaddress}></input>
+                      
+                    </div>
+                    <div className='button'>
+                      <input type="submit" value={"Add"}></input>
+                    </div>
+                    </div>
+                    </form>
+                    }
+                {isaddress===false && <button onClick={addAddress}>Addresss</button>}
+                {isaddress===false && <button onClick={handlePayment}>Pay</button>}
             </div>
         </div>
     )

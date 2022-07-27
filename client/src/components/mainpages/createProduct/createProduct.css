@@ -84,3 +84,8 @@
     letter-spacing: 2px;
     font-weight: 700;
 }
+.size{
+    display: flex;
+    justify-content: space-evenly;
+
+}

@@ -16,6 +16,7 @@ function DetailProduct() {
 
             products.forEach(product => {
                 if(product._id === params.id) setDetailProduct(product)
+                console.log(product)
             })
         }
     },[params.id, products])
@@ -34,22 +35,22 @@ function DetailProduct() {
                     <span>$ {detailProduct.price}</span>
                     <p>{detailProduct.description}</p>
                     <p>{detailProduct.content}</p>
-                    <p>Sold: {detailProduct.sold}</p>
+                    <p>Sold: {detailProduct.sold} | Stock: {detailProduct.stock}</p>
+                         {detailProduct.stock<=0 ||detailProduct.stock==null && <p style={{color:"red"}}>Out of Stock</p>}
                     <div className='size_box'>
-                        <div>
-                            L
-                        </div>
-                        <div>
-                            M
-                        </div>
-                        <div>
-                            XL
-                        </div>
+                    <select name="size">
+                        {detailProduct.size.map(size=>(
+                            <option value={size}>{size}</option>
+                        ))
+                        }    
+                    </select>
                     </div>
+                    {detailProduct.stock>0 &&
                     <Link to="/cart" className="cart"
-                    onClick={() => addCart(detailProduct)}>
+                      onClick={() => addCart(detailProduct)}>
                         Buy Now
                     </Link>
+                    }
                 </div>
             </div>
 

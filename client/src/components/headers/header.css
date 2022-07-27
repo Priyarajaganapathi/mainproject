@@ -14,8 +14,7 @@ header .logo img{
     width:45px;
     
 }
-header a{
-    /* text-transform: uppercase;  */
+ li Link{
     color:white;
     text-decoration:none ;
 }

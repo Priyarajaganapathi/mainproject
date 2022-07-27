@@ -46,11 +46,13 @@ function OrderHistory() {
                 <tbody>
                     {
                         history.map(items => (
-                            <tr key={items._id}>
+                              <   tr key={items._id}>
+                                {()=>{console.log(items)}}
                                 <td>{items.paymentID}</td>
                                 <td>{new Date(items.createdAt).toLocaleDateString()}</td>
                                 <td><Link to={`/history/${items._id}`}>View</Link></td>
                             </tr>
+                            
                         ))
                     }
                 </tbody>

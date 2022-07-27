@@ -12,6 +12,8 @@ import Categories from './categories/Categories'
 import CreateProduct from './createProduct/CreateProduct'
 
 import {GlobalState} from '../../GlobalState'
+import Contact from './contact/Contact'
+import Discount from './discount/Discount'
 
 
 function Pages() {
@@ -36,6 +38,8 @@ function Pages() {
             <Route path="/history/:id" exact component={isLogged ? OrderDetails : NotFound} />
 
             <Route path="/cart" exact component={Cart} />
+            <Route path="/discount" exact component={Discount} />
+            <Route path="/contact" exact component={Contact} />
 
 
             <Route path="*" exact component={NotFound} />

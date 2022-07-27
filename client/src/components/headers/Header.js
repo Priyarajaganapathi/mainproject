@@ -56,7 +56,6 @@ function Header() {
             </div>
 
             <ul style={styleMenu}>
-                {/* <li><Link to=" https://priyarajaganapathi.github.io/PROJECT/home.htm">Home</Link></li> */}
                 <li><Link to="/">{isAdmin ? 'Products' : 'Shop'}</Link></li>
                
                 {isAdmin && adminRouter()}
@@ -64,6 +63,8 @@ function Header() {
                     isLogged ? loggedRouter() : <li><Link to="/login">Login or Register</Link></li>
                 }
 
+                <li>{isAdmin ? <Link to={"discount"}>Discount</Link>:<Link to={"contact"}>Contact us</Link>}</li>
+             
                 <li onClick={() => setMenu(!menu)}>
                     <img src={Close} alt="" width="30" className="menu" />
                 </li>

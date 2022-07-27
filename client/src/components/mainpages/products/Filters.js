@@ -16,8 +16,8 @@ function Filters() {
     }
 
     return (
-        <div className="filter_menu">
-            <div className="row"> 
+        <div className="d-flex flex-row justify-content-between align-items-center border border-dark">
+            <div className=""> 
                 {/* <span>Filters: </span> */}
                 <select name="category" value={category} onChange={handleCategory} >
                     <option value=''>All Products</option>
@@ -30,11 +30,12 @@ function Filters() {
                     }
                 </select>
             </div>
-
-            <input type="text" value={search} placeholder="Enter your search!"
+            <div >
+            <input style={{width:"500px" }} type="text" value={search} placeholder="Enter your search!"
             onChange={e => setSearch(e.target.value.toLowerCase())} />
+            </div>
 
-            <div className="row sort">
+            <div className="">
                 <span>Sort By: </span>
                 <select value={sort} onChange={e => setSort(e.target.value)} >
                     <option value=''>Newest</option>

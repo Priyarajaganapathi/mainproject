@@ -11,8 +11,10 @@ function OrderDetails() {
 
     useEffect(() => {
         if(params.id){
+            console.log(params)
             history.forEach(item =>{
                 if(item._id === params.id) setOrderDetails(item)
+                console.log(item);
             })
         }
     },[params.id, history])
@@ -28,15 +30,15 @@ function OrderDetails() {
                         <th>Name</th>
                         <th>Address</th>
                         <th>Postal Code</th>
-                        <th>Country Code</th>
+                        <th>State</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{orderDetails.address.recipient_name}</td>
-                        <td>{orderDetails.address.line1 + " - " + orderDetails.address.city}</td>
-                        <td>{orderDetails.address.postal_code}</td>
-                        <td>{orderDetails.address.country_code}</td>
+                        <td>{orderDetails.address.name}</td>
+                        <td>{orderDetails.address.city}</td>
+                        <td>{orderDetails.address.pincode}</td>
+                        <td>{orderDetails.address.state}</td>
                     </tr>
                 </tbody>
             </table>

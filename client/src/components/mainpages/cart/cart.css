@@ -31,7 +31,25 @@
     color: crimson;
 }
 .total >button{
-    width: 50px;
+    width: 80px;
     font-weight: 700;
     background-color: rgb(37, 37, 201);
+}
+
+.address{
+    display: flex; 
+    flex-direction: column;
+}
+.addressinputs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+.button >input{
+   /* color: red; */
+   margin-left: 35%;
+   /* margin-top: 10px; */
+   background: red;
+   width: 70px;
 }
