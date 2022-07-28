@@ -10,7 +10,8 @@ router.route('/payment')
     .get(auth, authAdmin, paymentCtrl.getPayments)
     .post(auth, paymentCtrl.createPayment)
 
-
+router.route('/payment/:id')
+.patch(auth,authAdmin,paymentCtrl.updateStatus)
     router.post("/orders", async (req, res) => {
         try {
             const instance = new Razorpay({

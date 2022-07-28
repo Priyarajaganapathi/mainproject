@@ -1,12 +1,17 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {useParams} from 'react-router-dom'
 import {GlobalState} from '../../../GlobalState'
+import axios from 'axios'
+
+
 
 function OrderDetails() {
     const state = useContext(GlobalState)
     const [history] = state.userAPI.history
     const [orderDetails, setOrderDetails] = useState([])
-
+    const [isAdmin] = state.userAPI.isAdmin
+    const [statusorder,setstatusorder]=useState();
+    const [token] = state.token
     const params = useParams()
 
     useEffect(() => {
@@ -21,6 +26,20 @@ function OrderDetails() {
 
 
     if(orderDetails.length === 0) return null;
+
+    const status=async(e)=>{
+    e.preventDefault();
+   console.log(statusorder)
+   window.alert(statusorder)
+   try {
+     await axios.patch(`/api/payment/${orderDetails._id}`,{status:statusorder}, {
+        headers: {Authorization: token}
+    })
+   } catch (error) {
+    
+   }
+
+    }
 
     return (
         <div className="history-page">
@@ -66,6 +85,21 @@ function OrderDetails() {
                     
                 </tbody>
             </table>
+
+            <div className='container'>
+                {console.log(orderDetails)}
+                <h3>Status :{orderDetails.status}</h3>
+                 {isAdmin && <div>
+                <form onSubmit={status}>
+                     update:<br></br>
+                      <input type='radio' onClick={(e)=>{setstatusorder(e.target.value)}} name='status' value={"Order Placed"} required="required"></input>Order Placed<br></br>
+                      <input type='radio' onClick={(e)=>{setstatusorder(e.target.value)}} name='status' value={"Order Dispatched"} required="required"></input>Order Dispatched<br></br>
+                      <input type='radio' onClick={(e)=>{setstatusorder(e.target.value)}} name='status' value={"Order Delivered"} required="required"></input>Order Delivered<br></br>
+                <input type='submit' value={"Update"} style={{cursor:"pointer"}}></input> 
+                </form> 
+                </div> }
+
+            </div>
         </div>
     )
 }

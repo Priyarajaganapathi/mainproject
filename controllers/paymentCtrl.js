@@ -12,6 +12,16 @@ const paymentCtrl = {
             return res.status(500).json({msg: err.message})
         }
     },
+    updateStatus: async(req,res)=>{
+        try {
+            const {status}=req.body
+            console.log(status)
+            await Payments.findOneAndUpdate({_id: req.params.id},{status:req.body.status})
+        } catch (error) {
+            return res.status(500).json({msg: err.message})
+        }
+    }
+    ,
     createPayment: async(req, res) => {
         try {
             const user = await Users.findById(req.user.id).select('name email')
