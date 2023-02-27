@@ -63,7 +63,7 @@ function Header() {
                     isLogged ? loggedRouter() : <li><Link to="/login">Login or Register</Link></li>
                 }
 
-                <li>{isAdmin ? <Link to={"discount"}>Discount</Link>:<Link to={"contact"}>Contact us</Link>}</li>
+                <li>{isAdmin ? <Link to={"/discount"}>Discount</Link>:<Link to={"/contact"}>Contact us</Link>}</li>
              
                 <li onClick={() => setMenu(!menu)}>
                     <img src={Close} alt="" width="30" className="menu" />

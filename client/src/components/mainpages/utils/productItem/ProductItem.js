@@ -16,11 +16,11 @@ function ProductItem({product, isAdmin, deleteProduct, handleCheck}) {
             <div className="product_box">
                 <center>
                 <h3 title={product.title}>{product.title}</h3>
-                <span>${product.price} {product.content}</span>
+                <span>${product.price} <del>{product.content}</del></span>
                 <p>{product.description}</p></center>
                 
             </div>
-            {product.stock<5 && <p style={{color:"red"}}>Add stock</p>}
+            { isAdmin && <>{  product.stock<5 && <p style={{color:"red"}}>Add stock</p>}</>}
             
             <BtnRender product={product} deleteProduct={deleteProduct} />
         </div>

@@ -92,10 +92,7 @@ function Cart() {
         }
     }
 
-    const tranSuccess = async(payment) => {
-        // const address = payment;
-        //update stock
-        
+    const tranSuccess = async(payment) => {        
         const paymentID=payment.razorpay_payment_id;
         console.log("data 3",paymentID)
         await axios.post('/api/payment', {cart, paymentID, address}, {
@@ -205,14 +202,14 @@ function Cart() {
                     <div className='address'>
                     <div className='addressinputs'>
                     name
-                    <input type='text' name='name' required value={address.name} onChange={handleaddress}></input>
+                    <input type='text' name='name' required minLength={2} value={address.name} onChange={handleaddress}></input>
                     mobile
-                    <input type='text' name='mobile'required value={address.mobile} onChange={handleaddress}></input>
+                    <input type='text' name='mobile' minLength={10} maxLength={12} required value={address.mobile} onChange={handleaddress}></input>
                      city
                     <input type='text' name='city' required value={address.city} onChange={handleaddress}></input>
                    
                      pincode
-                    <input type='text' name='pincode' required value={address.pincode} onChange={handleaddress}></input>
+                    <input type='text' name='pincode' required  minLength={6} maxLength={6} value={address.pincode} onChange={handleaddress}></input>
                       
                     </div>
                     <div className='button'>

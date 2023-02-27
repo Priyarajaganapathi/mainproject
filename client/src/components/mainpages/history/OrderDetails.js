@@ -49,7 +49,7 @@ function OrderDetails() {
                         <th>Name</th>
                         <th>Address</th>
                         <th>Postal Code</th>
-                        <th>State</th>
+                        <th>Mobile</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,7 +57,7 @@ function OrderDetails() {
                         <td>{orderDetails.address.name}</td>
                         <td>{orderDetails.address.city}</td>
                         <td>{orderDetails.address.pincode}</td>
-                        <td>{orderDetails.address.state}</td>
+                        <td>{orderDetails.address.mobile}</td>
                     </tr>
                 </tbody>
             </table>
@@ -100,6 +100,10 @@ function OrderDetails() {
                 </div> }
 
             </div>
+
+            {/* {orderDetails.status==="Order Delivered" && <div  className='container border border-light' style={{height:"80px"}}></div>} */}
+
+            
         </div>
     )
 }

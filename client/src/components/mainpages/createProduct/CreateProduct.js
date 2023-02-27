@@ -181,7 +181,7 @@ function CreateProduct() {
                     value='M' onChange={handleCheck} /> M
                     </div>
                     <div>
-                    <input type="checkbox" name="size" id="size" 
+                    <input type="checkbox" name="size" id="size"         
                     value='L' onChange={handleCheck} /> L
                     </div>
                 </div>
